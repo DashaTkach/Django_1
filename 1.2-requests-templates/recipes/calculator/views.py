@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 DATA = {
@@ -16,15 +17,36 @@ DATA = {
         'сыр, ломтик': 1,
         'помидор, ломтик': 1,
     },
-    # можете добавить свои рецепты ;)
+    'curry': {
+        'специи, г': 30,
+        'перец, шт': 2,
+        'лук, шт': 2,
+        'курица, г': 400,
+    },
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+
+def recipes(request, meal):
+    number_of_people = int(request.GET.get('servings', 1))
+    for key in DATA.keys():
+        for key1 in DATA[key]:
+            DATA[key][key1] = DATA[key][key1] * number_of_people
+    if meal == 'buter':
+        context = {
+            'recipe': DATA['buter'],
+        }
+    elif meal == 'omlet':
+        context = {
+            'recipe': DATA['omlet'],
+        }
+    elif meal == 'pasta':
+        context = {
+            'recipe': DATA['pasta'],
+        }
+    elif meal == 'curry':
+        context = {
+            'recipe': DATA['curry'],
+        }
+    return render(request, 'calculator/index.html', context)
+
+# нужно сделать обнуление при изменении цифры, но как это сделать?
