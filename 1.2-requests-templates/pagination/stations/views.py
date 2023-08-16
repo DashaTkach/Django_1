@@ -23,7 +23,7 @@ def bus_stations(request):
     paginator = Paginator(nes_list, 10)
     page = paginator.get_page(page)
     context = {
-        'bus_stations': nes_list,
+        'bus_stations': page.nes_list,  # проверить на ноуте потом
         'page': page,
     }
     return render(request, 'stations/index.html', context)
