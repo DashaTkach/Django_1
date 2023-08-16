@@ -28,7 +28,7 @@ DATA = {
 
 def recipes(request, meal):
     number_of_people = int(request.GET.get('servings', 1))
-    for key in DATA.keys():
+    for key in DATA.keys():  # создать другой словарь для того, чтобы данные перезаписывались
         for key1 in DATA[key]:
             DATA[key][key1] = DATA[key][key1] * number_of_people
     if meal == 'buter':
@@ -48,5 +48,3 @@ def recipes(request, meal):
             'recipe': DATA['curry'],
         }
     return render(request, 'calculator/index.html', context)
-
-# нужно сделать обнуление при изменении цифры, но как это сделать?
