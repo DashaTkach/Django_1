@@ -2,15 +2,19 @@ from rest_framework import serializers
 from .models import Measurement, Sensor
 
 
-class MeasurementSerializer(serializers.ModelSerializer):
+class SensorSerializer(serializers.ModelSerializer):  # 1,2 Создать и изменить датчик
+    class Meta:
+        model = Sensor
+        fields = ['name', 'description']
+
+
+class MeasurementSerializer(serializers.ModelSerializer):  # 3 Добавить измерение
     class Meta:
         model = Measurement
-        fields = ['temperature', 'created_at']
+        fields = ['id', 'temperature']
 
 
-class SensorDetailSerializer(serializers.ModelSerializer):
-    measurements = MeasurementSerializer(read_only=True, many=True)
-
+class SensorListSerializer(serializers.ModelSerializer):  # 4 Получить список датчиков
     class Meta:
         model = Sensor
         fields = ['id', 'name', 'description', 'measurements']
